@@ -218,22 +218,22 @@ class LibraryManager {
                     book.getId(), book.getIsbn(), book.getTitle(), book.getAuthor(),
                     book.getPublishDate(), book.getGenre(), book.getAgeRating());
         }                                           //Browse all books in the transferred list and extract their data
-    }
+    }   //The System.out.printf() method is used to align columns (so that the table looks neat in the console).
 
-    private void addNewBook() {
-        System.out.println("\n=== Add New Book ===");
-        final String id = "";
-        final String isbn = "";
-        String title, author, publishDate, genre;
-        int ageRating;
+    private void addNewBook() {         //Method for adding a new book to the system
+        System.out.println("\n=== Add New Book ===");       //Show section heading
+        final String id = "";       //Create variables to store book data
+        final String isbn = "";    // values of variables cannot be changed after assignment
+        String title, author, publishDate, genre;   //Book ID (usually unique)International
+        int ageRating;         //Standard Book Number (ISBBuchname Date of Publication Author Book Genre Age Rating Book
 
-        // Get and validate ID
+        // Get and validate ID  //Method for adding a new book with checking all fields
         do {
-            System.out.print("Enter book ID: ");
+            System.out.print("Enter book ID: "); // Check ID, remove spaces
             String inputId = scanner.nextLine().trim();
             if (inputId.isEmpty()) {
                 System.out.println("ID cannot be empty.");
-            } else if (books.stream().anyMatch(b -> b.getId().equals(inputId))) {
+            } else if (books.stream().anyMatch(b -> b.getId().equals(inputId))) {  //Check if there is a book with the same ID in the list (uniqueness
                 System.out.println("ID already exists.");
             } else {
                 break;
@@ -243,12 +243,12 @@ class LibraryManager {
         // Get and validate ISBN
         do {
             System.out.print("Enter ISBN (10 characters): ");
-            String inputIsbn = scanner.nextLine().trim();
+            String inputIsbn = scanner.nextLine().trim();       //Read ISBN
             if (inputIsbn.isEmpty()) {
                 System.out.println("ISBN cannot be empty.");
-            } else if (inputIsbn.length() != 10) {
+            } else if (inputIsbn.length() != 10) {              //ISBN lengh
                 System.out.println("ISBN must be 10 characters long.");
-            } else if (books.stream().anyMatch(b -> b.getIsbn().equals(inputIsbn))) {
+            } else if (books.stream().anyMatch(b -> b.getIsbn().equals(inputIsbn))) { //Check ISBN uniqueness
                 System.out.println("ISBN already exists.");
             } else {
                 break;
@@ -258,7 +258,7 @@ class LibraryManager {
         // Get and validate title
         do {
             System.out.print("Enter title: ");
-            title = scanner.nextLine().trim();
+            title = scanner.nextLine().trim();  //Read title
             if (title.isEmpty()) {
                 System.out.println("Title cannot be empty.");
             } else {
@@ -269,7 +269,7 @@ class LibraryManager {
         // Get and validate author
         do {
             System.out.print("Enter author: ");
-            author = scanner.nextLine().trim();
+            author = scanner.nextLine().trim();  //Read author
             if (author.isEmpty()) {
                 System.out.println("Author cannot be empty.");
             } else {
@@ -280,10 +280,10 @@ class LibraryManager {
         // Get and validate publish date
         do {
             System.out.print("Enter publish date (YYYY-MM-DD): ");
-            publishDate = scanner.nextLine().trim();
+            publishDate = scanner.nextLine().trim();                //Read date
             if (publishDate.isEmpty()) {
                 System.out.println("Publish date cannot be empty.");
-            } else if (!Pattern.matches("\\d{4}-\\d{2}-\\d{2}", publishDate)) {
+            } else if (!Pattern.matches("\\d{4}-\\d{2}-\\d{2}", publishDate)) { //Check the date format with a regular expression
                 System.out.println("Invalid date format. Use YYYY-MM-DD.");
             } else {
                 break;
@@ -293,7 +293,7 @@ class LibraryManager {
         // Get and validate genre
         do {
             System.out.print("Enter genre: ");
-            genre = scanner.nextLine().trim();
+            genre = scanner.nextLine().trim();      //Read genre
             if (genre.isEmpty()) {
                 System.out.println("Genre cannot be empty.");
             } else {
@@ -305,9 +305,9 @@ class LibraryManager {
         do {
             System.out.print("Enter age rating: ");
             try {
-                ageRating = Integer.parseInt(scanner.nextLine().trim());
+                ageRating = Integer.parseInt(scanner.nextLine().trim()); //Convert input to number
                 if (ageRating < 0) {
-                    System.out.println("Age rating cannot be negative.");
+                    System.out.println("Age rating cannot be negative."); //Negative values are not allowed
                 } else {
                     break;
                 }
@@ -316,9 +316,9 @@ class LibraryManager {
             }
         } while (true);
 
-        books.add(new Book(id, isbn, title, author, publishDate, genre, ageRating));
+        books.add(new Book(id, isbn, title, author, publishDate, genre, ageRating)); //Add and save book in a list
         saveBooksToFile();
-        System.out.println("Book added successfully!");
+        System.out.println("Book added successfully!"); //Confermation
     }
 
     // Member Management Methods
@@ -326,15 +326,15 @@ class LibraryManager {
         System.out.println("\n=== All Members ===");
         System.out.printf("%-5s %-15s %-15s %-5s%n", "ID", "First Name", "Last Name", "Age");
         System.out.println("-".repeat(50));
-        for (Member member : members) {
+        for (Member member : members) { //We review all participants and extract their data
             System.out.printf("%-5s %-15s %-15s %-5d%n",
                     member.getId(), member.getFirstName(), member.getLastName(), member.getAge());
         }
     }
 
-    private void addNewMember() {
+    private void addNewMember() {   //Method to add new participant
         System.out.println("\n=== Add New Member ===");
-        final String id = "";
+        final String id = "";                              //id is set after checking
         String  firstName, lastName;
         int age;
 
@@ -345,7 +345,7 @@ class LibraryManager {
             if (inputId.isEmpty()) {
                 System.out.println("ID cannot be empty.");
             } else if (members.stream().anyMatch(m -> m.getId().equals(inputId))) {
-                System.out.println("ID already exists.");
+                System.out.println("ID already exists.");     //Uniqueness check
             } else {
                 break;
             }
@@ -396,42 +396,45 @@ class LibraryManager {
     // Loan Management Methods
     private void checkOutBook() {
         System.out.println("\n=== Check Out Book ===");
-        System.out.print("Enter book ID: ");
+        System.out.print("Enter book ID: ");            //Book ID
         String bookId = scanner.nextLine().trim();
         Book book = books.stream()
                 .filter(b -> b.getId().equals(bookId))
                 .findFirst()
                 .orElse(null);
-
-        if (book == null) {
+        //books.stream() converts the books list into a stream (Stream<Book>) so that it can be processed by functional operations (filtering, searching, etc. ).
+        //.filter(b -> b.getId().equals(bookId))  //- filter the flow: b -> ... is a lambda expression, where b is one book in the list.
+        //. b. getId(). equals(bookId) is a condition that returns true if the book ID matches the bookId.
+        //findFirst() - finds the first element that passed the filter. Returns an object of type Optional<Book> (can be empty if nothing is found).
+        if (book == null) { //.orElse(null) - if there is a book in Optional - returns it, if not - returns null.
             System.out.println("Book not found.");
             return;
         }
 
-        if (book.isBorrowed()) {
+        if (book.isBorrowed()) {        //Checking if the book is available
             System.out.println("Book is already borrowed.");
             return;
         }
 
-        System.out.print("Enter member ID: ");
+        System.out.print("Enter member ID: ");          //Enter Member ID
         String memberId = scanner.nextLine().trim();
-        Member member = members.stream()
+        Member member = members.stream()                //Member search
                 .filter(m -> m.getId().equals(memberId))
                 .findFirst()
                 .orElse(null);
 
-        if (member == null) {
+        if (member == null) {                           //Participant verification
             System.out.println("Member not found.");
             return;
         }
 
-        if (book.getAgeRating() > member.getAge()) {
+        if (book.getAgeRating() > member.getAge()) {        //Age restriction check
             System.out.println("Member is too young for this book (age rating: " +
                     book.getAgeRating() + ").");
             return;
         }
 
-        System.out.println("Book: " + book.getTitle());
+        System.out.println("Book: " + book.getTitle());  //Checkout and confermation
         System.out.print("Confirm checkout (y/n)? ");
         if (scanner.nextLine().trim().toLowerCase().startsWith("y")) {
             book.setBorrowedBy(member.getId());
@@ -440,11 +443,11 @@ class LibraryManager {
         }
     }
 
-    private void checkInBook() {
+    private void checkInBook() {                        //Method for returning the book
         System.out.println("\n=== Check In Book ===");
         System.out.print("Enter book ID: ");
         String bookId = scanner.nextLine().trim();
-        Book book = books.stream()
+        Book book = books.stream()              // search for a book
                 .filter(b -> b.getId().equals(bookId))
                 .findFirst()
                 .orElse(null);
@@ -454,24 +457,24 @@ class LibraryManager {
             return;
         }
 
-        if (!book.isBorrowed()) {
+        if (!book.isBorrowed()) {                   //Check if the book has been taken
             System.out.println("Book is not currently borrowed.");
             return;
         }
 
-        book.setBorrowedBy(null);
+        book.setBorrowedBy(null);                   //Drop status "taken
         saveBooksToFile();
         System.out.println("Book checked in successfully!");
     }
 
-    // Search Methods
+    // Search Methods                           //Search for participant by surname (partial match
     private void findMember() {
         System.out.println("\n=== Find Member ===");
         System.out.print("Enter last name: ");
         String lastName = scanner.nextLine().trim().toLowerCase();
         List<Member> foundMembers = new ArrayList<>();
 
-        for (Member member : members) {
+        for (Member member : members) {             //Add all matching participants
             if (member.getLastName().toLowerCase().contains(lastName)) {
                 foundMembers.add(member);
             }
@@ -482,12 +485,12 @@ class LibraryManager {
             return;
         }
 
-        for (Member member : foundMembers) {
+        for (Member member : foundMembers) {        //For each participant found we show the books that he/she took
             System.out.println("\nMember: " + member.getFirstName() + " " +
                     member.getLastName() + " (ID: " + member.getId() + ")");
             System.out.println("Age: " + member.getAge());
             System.out.println("Borrowed books:");
-            List<Book> borrowedBooks = books.stream()
+            List<Book> borrowedBooks = books.stream()       //List of books taken by the participant
                     .filter(b -> member.getId().equals(b.getBorrowedBy()))
                     .toList();
             if (borrowedBooks.isEmpty()) {
@@ -500,7 +503,7 @@ class LibraryManager {
         }
     }
 
-    private void findBook() {
+    private void findBook() {  //Book search by title (partial match
         System.out.println("\n=== Find Book ===");
         System.out.print("Enter book title (partial match): ");
         String title = scanner.nextLine().trim().toLowerCase();
@@ -517,7 +520,7 @@ class LibraryManager {
             return;
         }
 
-        for (Book book : foundBooks) {
+        for (Book book : foundBooks) {          //Retrieving information from found books
             System.out.println("\nID: " + book.getId());
             System.out.println("ISBN: " + book.getIsbn());
             System.out.println("Title: " + book.getTitle());
@@ -525,7 +528,7 @@ class LibraryManager {
             System.out.println("Publish date: " + book.getPublishDate());
             System.out.println("Genre: " + book.getGenre());
             System.out.println("Age rating: " + book.getAgeRating());
-            if (book.isBorrowed()) {
+            if (book.isBorrowed()) {                                    //If the book is taken, find out who
                 Member borrower = members.stream()
                         .filter(m -> m.getId().equals(book.getBorrowedBy()))
                         .findFirst()
@@ -544,7 +547,7 @@ class LibraryManager {
     private void saveBooksToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("books.txt"))) {
             for (Book book : books) {
-                writer.write(String.format("%s,%s,%s,%s,%s,%s,%d%n",
+                writer.write(String.format("%s,%s,%s,%s,%s,%s,%d%n",    //Each line is a separate book, the values are separated by commas:
                         book.getId(), book.getIsbn(), book.getTitle(), book.getAuthor(),
                         book.getPublishDate(), book.getGenre(), book.getAgeRating()));
             }
@@ -553,7 +556,7 @@ class LibraryManager {
         }
     }
 
-    private void saveMembersToFile() {
+    private void saveMembersToFile() {          //Save member list to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("members.txt"))) {
             for (Member member : members) {
                 writer.write(String.format("%s,%s,%s,%d%n",
@@ -637,3 +640,15 @@ class Book {
     public void setAgeRating(int ageRating) { this.ageRating = ageRating; }
     public void setBorrowedBy(String memberId) { this.borrowedBy = memberId; }
 }
+
+/*
+Brief summary:
+
+Methods are divided by purpose: members, books, search, storage.
+
+All input correctness checks protect against user errors.
+
+Using stream() makes searching and checking concise.
+
+The data is saved in . txt files so that the program can recover it later.
+ */
