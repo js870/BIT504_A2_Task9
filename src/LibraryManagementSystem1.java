@@ -1,8 +1,11 @@
-import java.io.*;
+import java.io.*;                       //Import standard Java libraries
 import java.util.*;
 import java.util.regex.Pattern;
 
-// Main class for the library management system
+// Main class for the library management system             **
+// * Main class of library management system.
+// * Starts the program and initializes the library manager.
+// *
 public class LibraryManagementSystem1  {
     public static void main(String[] args) {
         System.out.println("Library Management System Starting...");
@@ -12,20 +15,22 @@ public class LibraryManagementSystem1  {
 }
 
 // Singleton class to manage library operations
+// Singleton-class (single), which controls the entire logic of the library.
+// Contains lists of books and participants, as well as menus and actions.
 class LibraryManager {
     private static LibraryManager instance;
-    private List<Member> members;
+     private List<Member> members;
     private List<Book> books;
     private Scanner scanner;
 
-    private LibraryManager() {
+    private LibraryManager() {                          //Private designer - prevents objects from being created from outside
         members = new ArrayList<>();
         books = new ArrayList<>();
         scanner = new Scanner(System.in);
         loadData();
     }
 
-    public static LibraryManager getInstance() {
+    public static LibraryManager getInstance() {        //Method to obtain an instance of the class (Singleton
         if (instance == null) {
             instance = new LibraryManager();
         }
@@ -43,20 +48,21 @@ class LibraryManager {
         }
     }
 
-    private void loadMembers(String filename) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+    private void loadMembers(String filename) throws IOException {                      //Method to read data about participants from a txt file.
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {   //The loadMembers method reads member (participant) data
+                                                                                        // from a text file and adds them to the members list.
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
+                String[] parts = line.split(",");               //The split(",") method divides a string by commas.
                 if (parts.length == 4) {
                     members.add(new Member(parts[0].trim(), parts[1].trim(), parts[2].trim(),
                             Integer.parseInt(parts[3].trim())));
-                }
+                }   //Checks that the line actually contains 4 elements (to avoid errors if the format is incorrect).
             }
         }
     }
 
-    private void loadBooks(String filename) throws IOException {
+    private void loadBooks(String filename) throws IOException { //Method to read book data from PDF file. String format: id,isbn,title,author,publishDate,genre,ageRating//String format: id,isbn,title,author,publishDate,genre,ageRating
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -71,7 +77,7 @@ class LibraryManager {
     }
 
     // Main program loop
-    public void run() {
+    public void run() {     //Main cycle of the program - shows main menu and allows the user to select actions.
         while (true) {
             displayMainMenu();
             String choice = scanner.nextLine();
@@ -120,7 +126,7 @@ class LibraryManager {
         }
     }
 
-    // Member Management Menu
+    // Member Management Menu           //keeps information about the member of the library.
     private void memberManagementMenu() {
         while (true) {
             System.out.println("\n=== Member Management ===");
@@ -179,39 +185,39 @@ class LibraryManager {
 
     // Book Management Methods
     private void displayAllBooks() {
-        displayBookTable(books, "All Books");
+        displayBookTable(books, "All Books");   //Method to display list of all taken (leased) books
     }
 
     private void displayBorrowedBooks() {
         List<Book> borrowedBooks = new ArrayList<>();
-        for (Book book : books) {
+        for (Book book : books) {                          // Review all books in the library
             if (book.isBorrowed()) {
-                borrowedBooks.add(book);
+                borrowedBooks.add(book);                   //If the book is in a "taken" state, add it to the list
             }
-        }
+        }       //Call a common method to display the table of books with title "Borrowed Books
         displayBookTable(borrowedBooks, "Borrowed Books");
     }
 
     private void displayUnborrowedBooks() {
-        List<Book> unborrowedBooks = new ArrayList<>();
+        List<Book> unborrowedBooks = new ArrayList<>(); //Create a new list to store only free books
         for (Book book : books) {
             if (!book.isBorrowed()) {
                 unborrowedBooks.add(book);
             }
-        }
+        }       //Call a common method to display the table of books with title "Unborrowed Books
         displayBookTable(unborrowedBooks, "Unborrowed Books");
     }
 
-    private void displayBookTable(List<Book> bookList, String header) {
+    private void displayBookTable(List<Book> bookList, String header) {     //Show table header with column alignment
         System.out.println("\n=== " + header + " ===");
         System.out.printf("%-5s %-15s %-30s %-20s %-15s %-15s %-10s%n",
                 "ID", "ISBN", "Title", "Author", "Publish Date", "Genre", "Age Rating");
-        System.out.println("-".repeat(100));
+        System.out.println("-".repeat(100));                            //Print dividing line
         for (Book book : bookList) {
             System.out.printf("%-5s %-15s %-30s %-20s %-15s %-15s %-10d%n",
                     book.getId(), book.getIsbn(), book.getTitle(), book.getAuthor(),
                     book.getPublishDate(), book.getGenre(), book.getAgeRating());
-        }
+        }                                           //Browse all books in the transferred list and extract their data
     }
 
     private void addNewBook() {
